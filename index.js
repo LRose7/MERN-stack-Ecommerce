@@ -1,25 +1,46 @@
+if(process.env.NODE_ENV = 'production') {
+    require('dotenv').config();
+}
+
 const express = require ('express');
 const mongoose = require ('mongoose');
 const cors = require('cors');
-require('dotenv').config();
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const session = require('express-session');
 
-//set up express
+// Set up express
 const app = express();
 
-//middleware
+// Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000", // location of the React App
+    credentials: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(cookieParser("secretcode"));
+app.use(passport.initialize());
+app.use(passport.session());
+require('./passportConfig')(passport);
+//----------- End of Middleware --------------------
 
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);
 });
 
-// set up mongoose
-
-mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, {
-    useNewUrlParser: true, 
+// Set up mongoose
+mongoose.connect(process.env.MONGO_DB_URI, {
+    useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
 }, (err) => {
@@ -28,4 +49,4 @@ mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, {
 });
 
 // set up routes
-app.use('/users', require('./routes/userRoute'));
+app.use('/user', require('./routes/userRoute'));
