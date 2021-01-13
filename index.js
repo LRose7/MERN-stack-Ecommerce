@@ -30,7 +30,7 @@ app.use(passport.session());
 require('./passportConfig')(passport);
 //----------- End of Middleware --------------------
 
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);
 });
@@ -47,3 +47,4 @@ mongoose.connect(process.env.MONGO_DB_URI, {
 
 // set up routes
 app.use('/user', require('./routes/userRoute'));
+app.use('/product', require('./routes/productRoute.js'));
