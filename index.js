@@ -15,10 +15,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({
-    origin: "http://localhost:3000", // location of the React App
-    credentials: true
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -33,7 +30,7 @@ app.use(passport.session());
 require('./passportConfig')(passport);
 //----------- End of Middleware --------------------
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);
 });

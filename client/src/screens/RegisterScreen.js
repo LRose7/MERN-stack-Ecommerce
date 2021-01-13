@@ -23,10 +23,22 @@ function Register(props) {
 
     }, [userInfo, props.history]);
 
-    const submit = (e) => {
-        e.preventDefault();
-        dispatch(register(name, email, password, passwordCheck));
-        props.history.push('/login');
+    const submit = async (e) => {
+        try {
+            e.preventDefault();
+            const newUser = await dispatch(register(name, email, password, passwordCheck));
+            if(newUser) {
+            alert("Thank you for registering!");
+            props.history.push('/login');
+            }
+            else {
+                alert("Sorry there was a problem registering you!");
+                props.history.push('/register');
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+       
     }
 
     return(
