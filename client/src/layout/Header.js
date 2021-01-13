@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
 export default function Header() {
+
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+
     const openMenu = () => {
         document.querySelector('.sidebar').classList.add('open');
       }
@@ -20,11 +25,22 @@ export default function Header() {
                     <h1><img className="logo-img" src="./images/JALogo2.PNG" alt="logo" />
                       <Link
                       to='/'
-                      activeStyle={{color: 'teal'}}> Fine Desks</Link></h1>
+                      > Fine Desks</Link></h1>
                 </div>
                 <div className="nav-links">
-                    <Link to ="/register" className="nav-link">Register</Link>
-                    <Link to="/login" className="nav-link">Log in</Link>
+                    {
+                        userInfo ?
+                        <ul className="userinfo-nav">
+                           <li><Link to="/profile" className="nav-link">{ userInfo.email }</Link></li>
+                           <li><button className="nav-btn">Log out</button></li>
+                       </ul>
+                       :
+                       <div>
+                       <Link to ="/register" className="nav-link"><button className="nav-btn">Register</button></Link>
+                       <Link to="/login" className="nav-link"><button className="nav-btn">Log in</button></Link>
+                       </div>
+                    }
+
                     <div className="cart-btn">
                         <span className="nav-icon">
                              <Link

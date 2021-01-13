@@ -50,6 +50,10 @@ body {
   font-family: var(--ff-secondary);
 }
 
+.text-center {
+  text-align: center;
+}
+
 /* --------- NAVBAR ----------- */
 .navbar {
   grid-area: navbar;
@@ -75,11 +79,6 @@ body {
   cursor: pointer;
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-}
-
 .nav-link {
   color: var(--clr-light);
   margin-right: 20px;
@@ -89,6 +88,34 @@ body {
 
 .nav-link:hover {
   color: var(--clr-light-accent);
+}
+
+.userinfo-nav {
+  display: flex;
+  margin-right: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-btn {
+  background-color: var(--clr-accent);
+  color: var(--clr-light);
+  text-transform: uppercase;
+  font-family: var(--ff-primary);
+  letter-spacing: 2px;
+  cursor: pointer;
+  padding: .2rem;
+}
+
+.nav-btn:hover {
+  background-color: var(--clr-light-accent);
+}
+
+.nav-link {
+  margin-right: 20px;
 }
 
 .userinfo-nav {

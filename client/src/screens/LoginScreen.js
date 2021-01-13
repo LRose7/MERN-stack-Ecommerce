@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { register } from '../../actions/userActions';
+import { login } from '../actions/userActions';
 
-function Register(props) {
-    const [name, setName] = useState('');
+ function Login(props) {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState('');
-    const userRegister = useSelector((state) => state.userRegister);
-    const { loading, userInfo, error } = userRegister;
+    const userLogin = useSelector((state) => state.userLogin);
+    const { loading, userInfo, error } = userLogin;
     const dispatch = useDispatch();
-
-    const history = useHistory();
-    const loginRedirect = () => history.push("/login");
 
     useEffect(() => {
         if(userInfo) {
-            props.history.push('/login');
+
         }
 
         return () => {
@@ -28,25 +24,20 @@ function Register(props) {
 
     const submit = (e) => {
         e.preventDefault();
-        dispatch(register(name, email, password, passwordCheck));
+        dispatch(login(email, password));
+        props.history.push('/');
     }
 
     return (
-        <div className="form">
-            <form onSubmit={submit}>
+    <div className="form">
+        <form onSubmit={submit}>
             <ul className="form-container">
                 <li>
-                    <h2>Create Account</h2>
+                    <h2>Log In</h2>
                 </li>
                 <li>
                     { loading && <div>Loading...</div> }
                     { error && <div>{ error }</div> }
-                </li>
-                <li>
-                    <label htmlFor="name">
-                        Name
-                    </label>
-                    <input type="name" name="name" id="name" onChange={(e) => setName(e.target.value)}></input>
                 </li>
                 <li>
                     <label htmlFor="email">
@@ -61,20 +52,19 @@ function Register(props) {
                     <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)}></input>
                 </li>
                 <li>
-
-                    <input type="password" name="passwordCheck" id="passwordCheck" placeholder="Verify Password" onChange={(e) => setPasswordCheck(e.target.value)}></input>
+                    <button type="submit" className="button primary">Log in</button>
                 </li>
                 <li>
-                    <button type="submit" className="button primary">Register</button>
+                    <p className="text-center">New to Fine Desks?</p>
                 </li>
-                <li> <p className="text-center">Already have an account?</p></li>
                 <li>
-                <button onClick={loginRedirect} className="button secondary text-center">Login</button>
+                    <Link to="/register" className="button secondary text-center">Create your Fine Desks account</Link>
                 </li>
             </ul>
+
         </form>
     </div>
     )
 }
 
-export default Register;
+export default Login;

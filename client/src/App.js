@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import HomeScreen from './components/screens/HomeScreen';
-import Register from './components/screens/Register';
-import Login from './components/screens/Login';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Header from './layout/Header';
+import Footer from './layout/Footer';
+import HomeScreen from './screens/HomeScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import LoginScreen from './screens/LoginScreen';
+
 
 import './style.css';
 
@@ -15,11 +16,9 @@ export default function App() {
     <>
     <BrowserRouter>
     <Header></Header>
-    <Switch>
       <Route path="/" exact={true} component={HomeScreen}></Route>
-      <Route path="/register" component={Register}></Route>
-      <Route path="/login" component={Login}></Route>
-    </Switch>
+      <Route path="/register" component={RegisterScreen}></Route>
+      <Route path="/login" component={LoginScreen}></Route>
     <Footer></Footer>
     </BrowserRouter>
     </>
