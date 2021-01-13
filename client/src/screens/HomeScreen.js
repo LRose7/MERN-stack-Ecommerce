@@ -47,6 +47,7 @@ export default function HomeScreen() {
                 <div className="product-name">
                     <Link to={"/product/" + product._id}> {product.name}</Link>
                 </div>
+                <div className="product-description"><p>{product.description}</p> </div>
                 <div className="product-type">{product.type}</div>
                 <div className="product-price">${product.price}</div>
                 <div className="product-rating">{product.rating} Stars ({product.numReviews})</div>
