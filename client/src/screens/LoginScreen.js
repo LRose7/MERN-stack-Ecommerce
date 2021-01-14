@@ -23,9 +23,16 @@ import { login } from '../actions/userActions';
     }, [userInfo, props.history]);
 
     const submit = (e) => {
-        e.preventDefault();
-        dispatch(login(email, password));
-        props.history.push('/');
+        try {
+            e.preventDefault();
+            dispatch(login(email, password));
+            props.history.push('/');
+
+        } catch (error) {
+            console.log(error.message);
+            alert("Error logging in!");
+            props.history.push('/login');
+        }
     }
 
     return (
