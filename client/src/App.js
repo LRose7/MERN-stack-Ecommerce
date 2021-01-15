@@ -5,7 +5,9 @@ import Footer from './layout/Footer';
 import HomeScreen from './screens/HomeScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
+import ProductScreen from './screens/ProductScreen';
 import ProductsScreen from './screens/ProductsScreen';
+import CartScreen from "./screens/CartScreen";
 
 
 import './style.css';
@@ -20,7 +22,9 @@ export default function App() {
       <Route path="/" exact={true} component={HomeScreen}></Route>
       <Route path="/register" component={RegisterScreen}></Route>
       <Route path="/login" component={LoginScreen}></Route>
+      <Route path="/product/:id" component={ProductScreen}></Route>
       <Route path="/products" component={ProductsScreen}></Route>
+      <Route path="/cart/:id?" component={CartScreen}></Route>
     <Footer></Footer>
     </BrowserRouter>
     </>
