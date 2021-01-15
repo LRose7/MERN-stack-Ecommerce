@@ -4,14 +4,17 @@ import {
     PRODUCT_LIST_FAIL,
     PRODUCT_SAVE_REQUEST,
     PRODUCT_SAVE_SUCCESS,
-    PRODUCT_SAVE_FAIL
+    PRODUCT_SAVE_FAIL,
+    PRODUCT_DELETE_REQUEST,
+    PRODUCT_DELETE_SUCCESS,
+    PRODUCT_DELETE_FAIL
 } from '../constants/productConstants';
-const axios = require('axios');
+const Axios = require('axios');
 
 const listProducts = () => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
-        const { data } = await axios.get("http://localhost:5000/product");
+        const { data } = await Axios.get("http://localhost:5000/products");
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
 
     } catch (error) {
@@ -23,27 +26,29 @@ const listProducts = () => async (dispatch) => {
 const saveProduct = (product) => async (dispatch, getState) => {
     try {
       dispatch({ type: PRODUCT_SAVE_REQUEST, payload: product });
-      const {
-        userSignin: { userInfo },
-      } = getState();
-      if (!product._id) {
-        const { data } = await axios.post('/api/products', product, {
-          headers: {
-            Authorization: 'Bearer ' + userInfo.token,
-          },
-        });
-        dispatch({ type: PRODUCT_SAVE_SUCCESS, payload: data });
+      if(!product._id) {
+      const { data } = await Axios.post("http://localhost:5000/products/", product);
+      dispatch({ type: PRODUCT_SAVE_SUCCESS, payload: data });
       } else {
-        const { data } = await axios.put('/api/products/' + product._id, product, {
-          headers: {
-            Authorization: 'Bearer ' + userInfo.token,
-          },
-        });
+        const { data } = await Axios.put("http://localhost:5000/products/" + product._id, product);
         dispatch({ type: PRODUCT_SAVE_SUCCESS, payload: data });
       }
+
     } catch (error) {
       dispatch({ type: PRODUCT_SAVE_FAIL, payload: error.message });
     }
   };
 
-export { listProducts, saveProduct };
+
+
+  const deleteProduct = (productId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: PRODUCT_DELETE_REQUEST, payload: productId });
+      const { data } = await Axios.delete("http://localhost:5000/products/" + productId);
+      dispatch({ type: PRODUCT_DELETE_SUCCESS, payload: data, success: true });
+    } catch (error) {
+      dispatch({ type: PRODUCT_DELETE_FAIL, payload: error.message });
+    }
+  };
+
+export { listProducts, saveProduct, deleteProduct };

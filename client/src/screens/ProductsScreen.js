@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveProduct, listProducts } from '../actions/productActions';
+import { saveProduct, listProducts, deleteProduct } from '../actions/productActions';
 
 export default function ProductsScreen(props) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -24,6 +25,13 @@ export default function ProductsScreen(props) {
         error: errorSave
     } = productSave;
 
+    const productDelete = useSelector((state) => state.productDelete);
+    const {
+        loading: loadingDelete,
+        success: successDelete,
+        error: errorDelete,
+      } = productDelete;
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -34,7 +42,7 @@ export default function ProductsScreen(props) {
         return () => {
             //
         };
-    }, [dispatch, successSave]);
+    }, [dispatch, successSave, successDelete]);
 
     const openModal = (product) => {
         setModalVisible(true);
@@ -49,22 +57,41 @@ export default function ProductsScreen(props) {
         setCountInStock(product.countInStock);
     }
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        dispatch(
-            saveProduct({
-                _id: id,
-                name,
-                image,
-                price,
-                category,
-                description,
-                rating,
-                numReviews,
-                countInStock
-            })
-        );
+    const submit = async (e) => {
+        try {
+            e.preventDefault();
+            await dispatch(saveProduct({_id:id, name, image, price, category, description, rating, numReviews, countInStock}));
+            props.history.push('/products');
+
+        } catch (error) {
+            console.log(error.message);
+        }
     };
+
+    const deleteHandler = (product) => {
+        dispatch(deleteProduct(product._id));
+      };
+
+    const uploadFileHandler = (e) => {
+        const file = e.target.files[0];
+        const bodyFormData = new FormData();
+        bodyFormData.append('image', file);
+        setUploading(true);
+        axios
+          .post('http://localhost:5000/uploads/uploadphoto', bodyFormData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then((response) => {
+            setImage(response.data);
+            setUploading(false);
+          })
+          .catch((err) => {
+            console.log(err);
+            setUploading(false);
+          });
+      };
 
     return(
         <div className="content content-margined">
@@ -75,7 +102,7 @@ export default function ProductsScreen(props) {
         {
             modalVisible &&
             <div className="form">
-            <form onSubmit={ submitHandler }>
+            <form onSubmit={ submit }>
                 <ul className="form-container">
                     <li>
                         <h2>Create Product</h2>
@@ -83,6 +110,9 @@ export default function ProductsScreen(props) {
                     <li>
                         { loadingSave && <div>Loading...</div> }
                         { errorSave && <div>{ errorSave }</div> }
+
+                        { loadingDelete && <div>Deleting...</div> }
+                        { errorDelete && <div>{ errorDelete }</div> }
                     </li>
                     <li>
                         <label htmlFor="name">Name</label>
@@ -96,15 +126,15 @@ export default function ProductsScreen(props) {
                     </li>
                     <li>
                         <label htmlFor="image">Image</label>
-                        <input
+                        {/* <input
                         type="text"
                         name="image"
                         value={image}
                         id="image"
                         onChange={(e) => setImage(e.target.value)}>
-                        </input>
-                        {/* <input type="file" onChange={uploadFileHandler}></input>
-                        {uploading && <div>Uploading...</div>} */}
+                        </input> */}
+                        <input type="file" name="image" onChange={uploadFileHandler} ></input>
+                        {uploading && <div>Uploading...</div>}
                     </li>
                     <li>
                         <label htmlFor="price">Price</label>
@@ -164,7 +194,7 @@ export default function ProductsScreen(props) {
                         </input>
                     </li>
                     <li>
-                        <button type="submit" className="button primary">{id ? "Update" : "Create"}</button>
+                        <button type="submit" className="button primary">{id ? 'Update' : 'Create'}</button>
                         <br />
                         <button onClick={ () => setModalVisible(false)} type="button" className="button secondary">Back</button>
                     </li>
@@ -189,14 +219,14 @@ export default function ProductsScreen(props) {
                 </thead>
                 <tbody>
                     {products.map(product => (
-                    <tr>
+                    <tr key={product._id}>
                         <td>{product._id}</td>
                         <td>{product.name}</td>
                         <td>{product.price}</td>
                         <td>{product.category}</td>
                         <td>
                             <button onClick={ () => openModal(product)}>Edit</button>
-                            {/* <button onClick={ () => deleteHandler(product)}>Delete</button> */}
+                            <button onClick={ () => deleteHandler(product)}>Delete</button>
                         </td>
                     </tr>
                     ))}

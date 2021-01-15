@@ -4,6 +4,7 @@ if(process.env.NODE_ENV = 'production') {
 
 const express = require ('express');
 const mongoose = require ('mongoose');
+const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, '/./uploads')));
 
 app.use(session({
     secret: "secretcode",
@@ -47,4 +49,5 @@ mongoose.connect(process.env.MONGO_DB_URI, {
 
 // set up routes
 app.use('/user', require('./routes/userRoute'));
-app.use('/product', require('./routes/productRoute.js'));
+app.use('/products', require('./routes/productRoute.js'));
+app.use('/uploads', require('./routes/uploadRoute'));

@@ -22,10 +22,10 @@ import { login } from '../actions/userActions';
 
     }, [userInfo, props.history]);
 
-    const submit = (e) => {
+    const submit = async (e) => {
         try {
             e.preventDefault();
-            dispatch(login(email, password));
+            await dispatch(login(email, password));
             props.history.push('/');
 
         } catch (error) {

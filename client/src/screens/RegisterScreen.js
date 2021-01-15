@@ -33,8 +33,8 @@ function Register(props) {
         } catch (error) {
             console.log(error.message);
             alert("Sorry there was a problem registering you!");
-            props.history.push('/register');
-        }
+            props.history.push('/register')
+        };
     }
 
     return(
