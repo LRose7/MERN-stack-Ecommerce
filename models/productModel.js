@@ -11,12 +11,19 @@ const reviewSchema = new mongoose.Schema(
     }
 );
 
+const imageSchema = new mongoose.Schema(
+    {
+        img: { data: Buffer, contentType: String }
+    },
+    {
+        timestamps: true,
+    }
+);
+
+
 const  ProductSchema = new mongoose.Schema ({
     name: { type: String },
-    image: {
-        data: Buffer,
-        contentType: String
-    },
+    image: [imageSchema],
     price: {
         type: Number,
         default: 0

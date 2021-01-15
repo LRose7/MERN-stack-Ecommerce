@@ -1,27 +1,56 @@
 const router = require('express').Router();
 const Product = require('../models/productModel');
+const multer = require('multer');
+const fs = require('fs');
+
+// define storage for the images
+const storage = multer.diskStorage({
+    // destination for files
+    destination(req, file, cb) {
+        cb(null, './client/public/uploads');
+    },
+
+    // add back the extension
+    filename(req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+        // cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    },
+});
+
+// upload parameters for multer
+const upload = multer({
+     storage: storage
+});
+
 
 router.get('/', async (req, res) => {
     const products = await Product.find({});
     res.send(products);
 });
 
-router.post("/", async (req, res) => {
-    const product = new Product({
-        name: req.body.name,
-        image: req.body.image,
-        price: req.body.price,
-        category: req.body.category,
-        description: req.body.description,
-        rating: req.body.rating,
-        numReviews: req.body.numReviews,
-        countInStock: req.body.countInStock,
-    });
-    const newProduct = await product.save();
-    if(newProduct) {
-        return res.status(201).send({ message: "New Product Created.", data: newProduct});
-    } else {
-    return res.status(500).send({ message: "Error in Creating Product."});
+router.post("/", upload.single('image'), async (req, res) => {
+    try {
+        console.log(req.file);
+
+        const product = new Product({
+            name: req.body.name,
+            image: req.body.image,
+            price: req.body.price,
+            category: req.body.category,
+            description: req.body.description,
+            rating: req.body.rating,
+            numReviews: req.body.numReviews,
+            countInStock: req.body.countInStock,
+        });
+        const newProduct = await product.save();
+        if(newProduct) {
+            return res.status(201).send({ message: "New Product Created.", data: newProduct});
+        } else {
+        return res.status(500).send({ message: "Error in Creating Product."});
+        }
+
+    } catch (err) {
+        res.status(500).json({error: err.message})
     }
 });
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { saveProduct, listProducts, deleteProduct } from '../actions/productActions';
 
 export default function ProductsScreen(props) {
@@ -78,7 +78,7 @@ export default function ProductsScreen(props) {
         bodyFormData.append('image', file);
         setUploading(true);
         axios
-          .post('http://localhost:5000/uploads/uploadphoto', bodyFormData, {
+          .post('http://localhost:5000/products', bodyFormData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -102,7 +102,7 @@ export default function ProductsScreen(props) {
         {
             modalVisible &&
             <div className="form">
-            <form onSubmit={ submit }>
+            <form onSubmit={ submit } encType="multipart/form-data">
                 <ul className="form-container">
                     <li>
                         <h2>Create Product</h2>
@@ -125,15 +125,15 @@ export default function ProductsScreen(props) {
                         </input>
                     </li>
                     <li>
-                        <label htmlFor="image">Image</label>
-                        {/* <input
+                        <label htmlFor="image">Upload Image</label>
+                        <input
                         type="text"
                         name="image"
                         value={image}
                         id="image"
-                        onChange={(e) => setImage(e.target.value)}>
-                        </input> */}
-                        <input type="file" name="image" onChange={uploadFileHandler} ></input>
+                        onChange={(e) => setImage(e.target.value)}
+                        ></input>
+                        <input type="file" onChange={uploadFileHandler}></input>
                         {uploading && <div>Uploading...</div>}
                     </li>
                     <li>
