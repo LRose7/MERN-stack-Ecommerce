@@ -9,20 +9,21 @@ router.get('/', (req, res) => {
 
 // Register a new user
 router.post('/register', async (req, res) => {
-    let { name, email, password, passwordCheck } = req.body;
+    // let { name, email, password, confirmPassword } = req.body;
 
     // validate
-    if (!name || !email || !password || !passwordCheck)
-    return res.status(400).json({ msg: "Not all fields have been entered." });
-    if (password.length < 5)
-    return res
-        .status(400)
-        .json({ msg: "The password needs to be at least 5 characters long." });
-    if (password !== passwordCheck)
-    return res
-        .status(400)
-        .json({ msg: "Enter the same password twice for verification." });
+    // if (!name || !email || !password || !confirmPassword)
+    // return res.status(400).json({ msg: "Not all fields have been entered." });
+    // if (password.length < 5)
+    // return res
+    //     .status(400)
+    //     .json({ msg: "The password needs to be at least 5 characters long." });
+    // if (password !== confirmPassword)
+    // return res
+    //     .status(400)
+    //     .json({ msg: "Enter the same password twice for verification." });
     try {
+
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = new User({
           name: req.body.name,
