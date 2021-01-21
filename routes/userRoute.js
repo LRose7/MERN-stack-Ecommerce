@@ -1,10 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
-const passport = require('passport');
-const auth = require('../middleware/auth');
-const jwt = require('jsonwebtoken');
-
+const { generateToken } = require('../utils.js');
 
 router.get('/', (req, res) => {
     res.send({ message: "User Route" });
@@ -12,74 +9,73 @@ router.get('/', (req, res) => {
 
 // Register a new user
 router.post('/register', async (req, res) => {
+    let { name, email, password, passwordCheck } = req.body;
+
+    // validate
+    if (!name || !email || !password || !passwordCheck)
+    return res.status(400).json({ msg: "Not all fields have been entered." });
+    if (password.length < 5)
+    return res
+        .status(400)
+        .json({ msg: "The password needs to be at least 5 characters long." });
+    if (password !== passwordCheck)
+    return res
+        .status(400)
+        .json({ msg: "Enter the same password twice for verification." });
     try {
-        let { name, email, password, passwordCheck } = req.body;
-
-        // validate
-        if (!name || !email || !password || !passwordCheck)
-        return res.status(400).json({ msg: "Not all fields have been entered." });
-        if (password.length < 5)
-        return res
-            .status(400)
-            .json({ msg: "The password needs to be at least 5 characters long." });
-        if (password !== passwordCheck)
-        return res
-            .status(400)
-            .json({ msg: "Enter the same password twice for verification." });
-
-        // Check for existing user
-        await User.findOne({ email: req.body.email }, async (err, doc) => {
-            if (err) throw err;
-            if (doc) res.send("User Already exists");
-            if (!doc) {
-                const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                const newUser = new User({
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: hashedPassword
-                });
-                await newUser.save();
-                res.status(201).json({ message: "User Successfully Created." });
-            }
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const user = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: hashedPassword,
         });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+        const newUser = await user.save();
+        if (newUser) {
+          res.send({
+            _id: newUser.id,
+            name: newUser.name,
+            email: newUser.email,
+            isAdmin: newUser.isAdmin,
+            token: generateToken(newUser),
+          });
+        } else {
+          res.status(401).send({ message: 'Invalid User Data.' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-});
+
+  });
 
 // Login a user
 router.post('/login', async (req, res) => {
+    let { email, password } = req.body;
+
+    //validate
+    if(!email | !password)
+    return res
+    .status(400)
+    .json({ msg: "Not all fields have been entered." });
+
     try {
-        const { email, password } = req.body;
-
-        //validate
-        if(!email | !password)
-        return res
-        .status(400)
-        .json({ msg: "Not all fields have been entered." });
-
-        const user = await User.findOne({ email: email});
+        const user = await User.findOne({ email: req.body.email });
         if(!user)
         return res
         .status(400)
         .json({ msg: "No account with this email has been registered." });
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch)
-        return res
-        .status(400)
-        .json({ msg: "Invalid Log in Credentials." });
-
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        res.status(200).json({
-            token,
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-            },
-        });
-        console.log(token);
+        if(user) {
+            if (bcrypt.compareSync(req.body.password, user.password)) {
+                res.send({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    token: generateToken(user),
+                });
+                return;
+            }
+        }
+        res.status(401).send({ message: "Invalid email or password" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

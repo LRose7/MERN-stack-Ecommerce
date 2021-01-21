@@ -22,25 +22,28 @@ const imageSchema = new mongoose.Schema(
 
 
 const  ProductSchema = new mongoose.Schema ({
-    name: { type: String },
+    name: { type: String, required: true, unique: true },
     image: [imageSchema],
     price: {
         type: Number,
         default: 0
     },
-    category: { type: String },
+    category: { type: String,  required: true },
     countInStock: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
     },
-    description: { type: String },
+    description: { type: String,  required: true },
     rating: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
      },
     numReviews: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
      },
      reviews: [reviewSchema],
 });

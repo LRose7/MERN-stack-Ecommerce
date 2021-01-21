@@ -6,10 +6,13 @@ const express = require ('express');
 const mongoose = require ('mongoose');
 const path = require('path');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const passport = require('passport');
+// const passport = require('passport');
 const session = require('express-session');
+
+dotenv.config();
 
 // Set up express
 const app = express();
@@ -27,9 +30,9 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(cookieParser("secretcode"));
-app.use(passport.initialize());
-app.use(passport.session());
-require('./passportConfig')(passport);
+// app.use(passport.initialize());
+// app.use(passport.session());
+// require('./passportConfig')(passport);
 //----------- End of Middleware --------------------
 
 const PORT = process.env.PORT || 5000;
