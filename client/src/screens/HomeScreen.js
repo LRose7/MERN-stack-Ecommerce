@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import Product from '../components/Product';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 // import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { listProducts } from '../actions/productActions';
@@ -32,11 +34,12 @@ export default function HomeScreen() {
                         <h2>Featured Products</h2>
                     </div>
                     {loading? (
-                    <div>Loading...</div>
-                    ) : error? (
-                    <div>{error}</div>
+                        <LoadingBox></LoadingBox>
+                    ) : error ? (
+                        <MessageBox variant="danger">{ error }</MessageBox>
                     ) : (
                         <>
+                        { products.length === 0 && <MessageBox>No Product Found.</MessageBox>}
                         <ul className="products-list">
                             <li>
                                 <div className="row center">

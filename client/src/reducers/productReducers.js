@@ -13,10 +13,13 @@ import {
     PRODUCT_DELETE_FAIL
 } from '../constants/productConstants';
 
-function productListReducer(state = { products: [] }, action) {
+export const productListReducer = (
+    state = { loading: true, products: [] },
+    action
+) => {
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
-            return { loading: true, products: [] };
+            return { loading: true };
         case PRODUCT_LIST_SUCCESS:
             return { loading: false, products: action.payload };
         case PRODUCT_LIST_FAIL:
@@ -26,12 +29,15 @@ function productListReducer(state = { products: [] }, action) {
     }
 }
 
-function productDetailsReducer(state = { product: {} }, action) {
+export const productDetailsReducer = (
+    state = { product: {}, loading: true },
+    action
+) => {
     switch (action.type) {
         case PRODUCT_DETAILS_REQUEST:
         return { loading: true };
         case PRODUCT_DETAILS_SUCCESS:
-            return{ loading:false, product: action.payload };
+            return{ loading: false, product: action.payload };
         case PRODUCT_DETAILS_FAIL:
             return { loading: false, error: action.payload };
             default:
@@ -39,7 +45,9 @@ function productDetailsReducer(state = { product: {} }, action) {
     }
 }
 
-function productSaveReducer(state = { product: {} }, action) {
+export const productSaveReducer = (
+    state = { product: {} }, action
+) => {
     switch (action.type) {
         case PRODUCT_SAVE_REQUEST:
         return { loading: true };
@@ -52,7 +60,9 @@ function productSaveReducer(state = { product: {} }, action) {
     }
 }
 
-function productDeleteReducer(state = { product: {} }, action) {
+export const productDeleteReducer = (
+    state = { product: {} }, action
+) => {
     switch (action.type) {
       case PRODUCT_DELETE_REQUEST:
         return { loading: true };
@@ -64,5 +74,3 @@ function productDeleteReducer(state = { product: {} }, action) {
         return state;
     }
   }
-
-export { productListReducer, productDetailsReducer, productSaveReducer, productDeleteReducer };
