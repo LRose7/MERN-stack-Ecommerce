@@ -30,8 +30,8 @@ export default function Header() {
                 <div className="nav-links">
                     {
                         userInfo ?
-                        <ul className="userinfo-nav">
-                           <li><Link to="/profile" className="nav-link">{ userInfo.email }</Link></li>
+                        <ul className="userinfo-nav" key={userInfo._id}>
+                           <li><Link to="/profile" className="nav-link">{ userInfo.name }</Link></li>
                            <li><button className="nav-btn">Log out</button></li>
                        </ul>
                        :

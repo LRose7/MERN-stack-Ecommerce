@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { register } from '../actions/userActions';
 
+
+
 function Register(props) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -21,14 +23,16 @@ function Register(props) {
             //
         };
 
-    }, [userInfo, props.history]);
+    }, [userInfo]);
 
-    const submit = async (e) => {
+    const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            await dispatch(register(name, email, password, passwordCheck));
-            alert("Thank you for registering!");
-            props.history.push('/login');
+            if(props.isValid()) {
+                await dispatch(register(name, email, password, passwordCheck));
+            }
+
+
 
         } catch (error) {
             console.log(error.message);
@@ -39,7 +43,7 @@ function Register(props) {
 
     return(
         <div className="form">
-        <form onSubmit={submit}>
+        <form onSubmit={handleSubmit}>
         <ul className="form-container">
             <li>
                 <h2>Create Account</h2>

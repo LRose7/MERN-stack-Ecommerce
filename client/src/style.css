@@ -319,7 +319,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -69px;
+  margin-top: -149px;
 }
 
 .banner {
@@ -363,6 +363,41 @@ input {
   justify-content: space-between;
   align-items: flex-start;
   font-family: var(--ff-primary);
+}
+
+ .row.center {
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row.top {
+  align-items: flex-start;
+}
+
+.row.start {
+  justify-content: flex-start;
+}
+
+.col-1 {
+  flex: 1 1 25rem;
+}
+.col-2 {
+  flex: 2 1 50rem;
+}
+.col-3 {
+  flex: 32 1 75rem;
+}
+.min-30 {
+  min-width: 30rem;
+}
+.p-1 {
+  padding: 1rem;
 }
 
 .content-margined {
@@ -459,6 +494,48 @@ tbody>tr:nth-child(odd) {
 }
 
 /* END OF PRODUCTS */
+
+/* Image */
+img {
+  border-radius: 0.5rem;
+}
+img.small {
+  max-width: 5rem;
+  width: 100%;
+}
+img.medium {
+  max-width: 29rem;
+  width: 100%;
+}
+img.large {
+  width: 100%;
+}
+
+/* Card */
+.card {
+  border: 0.1rem var(--clr-light-accent) solid;
+  border-radius: 0.5rem;
+  margin: 1rem;
+}
+.card-body {
+  padding: 1rem;
+}
+.card-body > * {
+  margin-bottom: 0.5rem;
+}
+.price {
+  font-size: 2rem;
+}
+
+/* RATING */
+.rating span {
+  color: #f0c040;
+  margin: 0.1rem;
+}
+
+.rating span:last-child {
+  color: var(--clr-dark);
+}
 
 /*---- PRODUCT DETAILS ----*/
 .details {
