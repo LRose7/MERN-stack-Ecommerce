@@ -47,33 +47,6 @@ export default function HomeScreen() {
                             </li>
                         </ul>
                         </>
-
-
-                    //     <ul className="products-list">
-                    //     {
-                    //         products.map(product =>
-                    //         <li className="product" key={product._id}>
-                    //         <div className="image-container">
-                    //         <Link to={"/product/" + product._id}>
-                    //             <img
-                    //             src= {product.image}
-                    //             alt="product"
-                    //             className="product-image"
-                    //             />
-                    //         </Link>
-
-                    //         </div>
-                    //         <div className="product-name">
-                    //             <Link to={"/product/" + product._id}> {product.name}</Link>
-                    //         </div>
-                    //         <div className="product-description"><p>{product.description}</p> </div>
-                    //         <div className="product-type">{product.type}</div>
-                    //         <div className="product-price">${product.price}</div>
-                    //         <div className="product-rating">{product.rating} Stars ({product.numReviews})</div>
-                    //     </li>
-                    //         )
-                    //     }
-                    // </ul>
                     )}
                 </div>
             </section>
