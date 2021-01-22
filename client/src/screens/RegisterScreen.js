@@ -45,7 +45,7 @@ function Register(props) {
             <form className="form" onSubmit={submitHandler}>
             <ul className="form-container">
                 <li>
-                    <h2>Create Account</h2>
+                    <h2 className="text-center">Create Account</h2>
                 </li>
                 <li>
                     { loading && <LoadingBox></LoadingBox> }

@@ -1,27 +1,10 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
-const { generateToken } = require('../utils.js');
-
-router.get('/', (req, res) => {
-    res.send({ message: "User Route" });
-});
+const { generateToken, isAuth, isAdmin } = require('../utils.js');
 
 // Register a new user
 router.post('/register', async (req, res) => {
-    // let { name, email, password, confirmPassword } = req.body;
-
-    // validate
-    // if (!name || !email || !password || !confirmPassword)
-    // return res.status(400).json({ msg: "Not all fields have been entered." });
-    // if (password.length < 5)
-    // return res
-    //     .status(400)
-    //     .json({ msg: "The password needs to be at least 5 characters long." });
-    // if (password !== confirmPassword)
-    // return res
-    //     .status(400)
-    //     .json({ msg: "Enter the same password twice for verification." });
     try {
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -82,32 +65,86 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    res.send(user);
+  } else {
+    res.status(404).send({ message: "User Not Found"});
+  }
+});
 
-// // user can delete their own account
-// router.delete('/delete', auth, async (req, res) => {
-//     try {
-//         const deletedUser = await User.findByIdAndDelete(req.user);
-//         res.json(deletedUser);
-//     } catch (err) {
-//         res.status(500).json({ error: err.message });
-//     }
-// });
+router.put('/profile', isAuth, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (user.isSeller) {
+      user.seller.name = req.body.sellerName || user.seller.name;
+      user.seller.logo = req.body.sellerLogo || user.seller.logo;
+      user.seller.description =
+        req.body.sellerDescription || user.seller.description;
+    }
+    if (req.body.password) {
+      user.password = bcrypt.hashSync(req.body.password, 10);
+    }
+    const updatedUser = await user.save();
+    res.send({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      isSeller: user.isSeller,
+      token: generateToken(updatedUser),
+    });
+  }
+});
 
-// router.post("/tokenIsValid", async (req, res) => {
-//     try {
-//       const token = req.header("x-auth-token");
-//       if (!token) return res.json(false);
+router.get('/',  isAuth, isAdmin, async (req, res) => {
+  const users = await User.find({});
+  res.send(users);
+});
 
-//       const verified = jwt.verify(token, process.env.JWT_SECRET);
-//       if (!verified) return res.json(false);
 
-//       const user = await User.findById(verified.id);
-//       if (!user) return res.json(false);
+router.delete('/:id', isAuth, isAdmin, async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (user) {
+        if (user.email === 'admin@example.com') {
+          res.status(400).send({ message: "Can Not Delete Admin User" });
+          return;
+        }
+        const deleteUser = await User.remove();
+        res.send({ message: "User Deleted", user: deleteUser });
+      } else {
+        res.status(404).send({ message: "User Not Found" });
+      }
 
-//       return res.json(true);
-//     } catch (err) {
-//       res.status(500).json({ error: err.message });
-//     }
-//   });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+router.put('/:id', isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isSeller = Boolean(req.body.isSeller);
+    user.isAdmin = Boolean(req.body.isAdmin);
+
+    const updatedUser = await user.save();
+    res.send({ message: "User Updated", user: updatedUser });
+  } else {
+    res.status(404).send({ message: "User Not Found" });
+  }
+});
+
+router.get('/top-sellers', async (req, res) => {
+  const topSellers = await User.find({ isSeller: true })
+    .sort({ 'seller.rating': -1 })
+    .limit(3);
+  res.send(topSellers);
+});
 
 module.exports = router;

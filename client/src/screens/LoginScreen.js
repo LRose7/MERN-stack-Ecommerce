@@ -39,7 +39,7 @@ import MessageBox from '../components/MessageBox';
         <form className="form" onSubmit={submitHandler}>
             <ul className="form-container">
                 <li>
-                    <h2>Log In</h2>
+                    <h2 className="text-center">Log In</h2>
                 </li>
                 <li>
                     { loading && <LoadingBox></LoadingBox> }
