@@ -9,7 +9,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// const passport = require('passport');
 const session = require('express-session');
 
 dotenv.config();
@@ -30,9 +29,6 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(cookieParser("secretcode"));
-// app.use(passport.initialize());
-// app.use(passport.session());
-// require('./passportConfig')(passport);
 //----------- End of Middleware --------------------
 
 const PORT = process.env.PORT || 5000;
@@ -53,4 +49,5 @@ mongoose.connect(process.env.MONGO_DB_URI, {
 // set up routes
 app.use('/user', require('./routes/userRoute'));
 app.use('/products', require('./routes/productRoute.js'));
+app.use('/orders', require('./routes/orderRoute.js'));
 app.use('/uploads', express.static(path.join(__dirname, './client/public/uploads')));

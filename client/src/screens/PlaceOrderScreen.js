@@ -8,7 +8,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
 
-export default function PlaceOrderScreen(props) {
+const PlaceOrderScreen = (props) => {
     const cart = useSelector((state) => state.cart);
     if(!cart.paymentMethod) {
         props.history.push('/payment');
@@ -143,3 +143,5 @@ export default function PlaceOrderScreen(props) {
         </div>
     )
 }
+
+export default PlaceOrderScreen;
