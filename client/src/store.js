@@ -22,6 +22,15 @@ import {
 import {
     cartReducer
 } from './reducers/cartReducers';
+import {
+    orderCreateReducer,
+    orderDeleteReducer,
+    orderDeliverReducer,
+    orderDetailsReducer,
+    orderListReducer,
+    orderMineListReducer,
+    orderPayReducer,
+  } from './reducers/orderReducers';
 
 
 // const userInfo = Cookie.getJSON("userInfo") || null;
@@ -59,7 +68,13 @@ const reducer = combineReducers({
     productSave: productSaveReducer,
     productDelete: productDeleteReducer,
     cart: cartReducer,
-
+    orderCreate: orderCreateReducer,
+    orderDetails: orderDetailsReducer,
+    orderPay: orderPayReducer,
+    orderMineList: orderMineListReducer,
+    orderList: orderListReducer,
+    orderDelete: orderDeleteReducer,
+    orderDeliver: orderDeliverReducer,
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

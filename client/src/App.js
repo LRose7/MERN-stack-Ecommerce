@@ -11,6 +11,7 @@ import ProductsScreen from './screens/ProductsScreen';
 import CartScreen from "./screens/CartScreen";
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import { listProductCategories } from './actions/productActions';
 import SearchBox from './components/SearchBox';
 import Footer from './layout/Footer';
@@ -174,6 +175,7 @@ export default function App() {
       <Route path="/cart/:id?" component={CartScreen}></Route>
       <Route path="/shipping" component={ShippingAddressScreen}></Route>
       <Route path="/payment" component={PaymentMethodScreen}></Route>
+      <Route path="/placeorder" component={PlaceOrderScreen}></Route>
     </main>
     <Footer></Footer>
     </div>
