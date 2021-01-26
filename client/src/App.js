@@ -8,10 +8,12 @@ import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ProductScreen from './screens/ProductScreen';
 import ProductsScreen from './screens/ProductsScreen';
+import EditProductsScreen from './screens/EditProductsScreen';
 import CartScreen from "./screens/CartScreen";
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import { listProductCategories } from './actions/productActions';
 import SearchBox from './components/SearchBox';
 import Footer from './layout/Footer';
@@ -19,6 +21,7 @@ import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 
 import './style.css';
+import OrderListScreen from './screens/OrderListScreen';
 
 export default function App() {
   const cart = useSelector((state) => state.cart);
@@ -172,10 +175,13 @@ export default function App() {
       <Route path="/profile" component={ProfileScreen}></Route>
       <Route path="/product/:id" component={ProductScreen}></Route>
       <Route path="/products" component={ProductsScreen}></Route>
+      <Route path="/editproducts" component={EditProductsScreen}></Route>
       <Route path="/cart/:id?" component={CartScreen}></Route>
       <Route path="/shipping" component={ShippingAddressScreen}></Route>
       <Route path="/payment" component={PaymentMethodScreen}></Route>
       <Route path="/placeorder" component={PlaceOrderScreen}></Route>
+      <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
+      <Route path="/orderlist" component={OrderListScreen}></Route>
     </main>
     <Footer></Footer>
     </div>

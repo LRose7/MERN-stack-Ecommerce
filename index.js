@@ -22,6 +22,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/uploads', express.static(path.join(__dirname, './client/public/uploads')));
 
 app.use(session({
     secret: "secretcode",
@@ -50,4 +51,4 @@ mongoose.connect(process.env.MONGO_DB_URI, {
 app.use('/user', require('./routes/userRoute'));
 app.use('/products', require('./routes/productRoute.js'));
 app.use('/orders', require('./routes/orderRoute.js'));
-app.use('/uploads', express.static(path.join(__dirname, './client/public/uploads')));
+app.use('/uploads', require('./routes/uploadRoute'));

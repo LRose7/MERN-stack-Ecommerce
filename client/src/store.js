@@ -14,10 +14,13 @@ import {
 } from './reducers/userReducers';
 import {
     productCategoryListReducer,
+    productCreateReducer,
     productListReducer,
     productDetailsReducer,
     productSaveReducer,
-    productDeleteReducer
+    productDeleteReducer,
+    productReviewCreateReducer,
+    productUpdateReducer,
 } from './reducers/productReducers';
 import {
     cartReducer
@@ -62,11 +65,14 @@ const reducer = combineReducers({
     userDelete: userDeleteReducer,
     userTopSellersList: userTopSellerListReducer,
     userAddressMap: userAddressMapReducer,
+    productCreate: productCreateReducer,
+    productUpdate: productUpdateReducer,
     productList: productListReducer,
     productCategoryList: productCategoryListReducer,
     productDetails: productDetailsReducer,
     productSave: productSaveReducer,
     productDelete: productDeleteReducer,
+    productReviewCreate: productReviewCreateReducer,
     cart: cartReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,

@@ -71,7 +71,7 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('shippingAddress');
     dispatch({ type: USER_LOGOUT });
     document.location.href = '/login';
-  };
+};
 
 export const detailsUser = (userId) => async (dispatch, getState) => {
   dispatch({ type: USER_DETAILS_REQUEST, payload: userId });

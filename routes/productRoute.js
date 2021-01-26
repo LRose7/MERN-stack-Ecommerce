@@ -1,27 +1,5 @@
 const router = require('express').Router();
 const Product = require('../models/productModel');
-const multer = require('multer');
-const fs = require('fs');
-
-// define storage for the images
-const storage = multer.diskStorage({
-    // destination for files
-    destination(req, file, cb) {
-        cb(null, './client/public/uploads');
-    },
-
-    // add back the extension
-    filename(req, file, cb) {
-        cb(null, Date.now() + file.originalname);
-        // cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    },
-});
-
-// upload parameters for multer
-const upload = multer({
-     storage: storage
-});
-
 
 router.get('/', async (req, res) => {
     const products = await Product.find({});
@@ -37,7 +15,7 @@ router.get("/:id", async (req, res) => {
     }
     });
 
-router.post("/", upload.single('image'), async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         console.log(req.file);
 
