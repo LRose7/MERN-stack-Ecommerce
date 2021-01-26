@@ -2,26 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { logout } from './actions/userActions';
+import AdminRoute from './components/AdminRoute';
+import PrivateRoute from './components/PrivateRoute';
 import HomeScreen from './screens/HomeScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
+import CartScreen from "./screens/CartScreen";
 import ProfileScreen from './screens/ProfileScreen';
 import ProductScreen from './screens/ProductScreen';
-import ProductsScreen from './screens/ProductsScreen';
-import EditProductsScreen from './screens/EditProductsScreen';
-import CartScreen from "./screens/CartScreen";
-import ShippingAddressScreen from './screens/ShippingAddressScreen';
-import PaymentMethodScreen from './screens/PaymentMethodScreen';
+import ProductListScreen from './screens/ProductListScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
-import { listProductCategories } from './actions/productActions';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import PaymentMethodScreen from './screens/PaymentMethodScreen';
+import ProductsScreen from './screens/ProductsScreen';
+import EditProductsScreen from './screens/EditProductsScreen';
+import OrderListScreen from './screens/OrderListScreen';
+import OrderScreen from './screens/OrderScreen';
+import UserListScreen from './screens/UserListScreen';
+import UserEditScreen from './screens/UserEditScreen';
+import SellerRoute from './components/SellerRoute';
+import SellerScreen from './screens/SellerScreen';
 import SearchBox from './components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
 import Footer from './layout/Footer';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
+// import MapScreen from './screens/MapScreen';
+import { listProductCategories } from './actions/productActions';
 
-import './style.css';
-import OrderListScreen from './screens/OrderListScreen';
+// import './style.css';
+
 
 export default function App() {
   const cart = useSelector((state) => state.cart);
@@ -56,10 +67,10 @@ export default function App() {
               onClick={() => setSidebarIsOpen(true)}
             >
               &#9776;
-              {/* <i className="fa fa-bars"></i> */}
             </button>
             <Link className="brand" to="/">
-            <img className="logo-img" src="./images/JALogo2.PNG" alt="logo" />Fine Desks
+            <img className="logo-img" src="./images/JALogo2.PNG" alt="logo" />
+              Fine Desks
             </Link>
           </div>
           <div>
@@ -172,16 +183,75 @@ export default function App() {
       <Route path="/" exact={true} component={HomeScreen}></Route>
       <Route path="/register" component={RegisterScreen}></Route>
       <Route path="/login" component={LoginScreen}></Route>
-      <Route path="/profile" component={ProfileScreen}></Route>
       <Route path="/product/:id" component={ProductScreen}></Route>
       <Route path="/products" component={ProductsScreen}></Route>
-      <Route path="/editproducts" component={EditProductsScreen}></Route>
+      <Route 
+      path="/product/:id/edit" 
+      component={EditProductsScreen}
+      exact
+      ></Route>
       <Route path="/cart/:id?" component={CartScreen}></Route>
+      <Route path="/seller/:id" component={SellerScreen}></Route>
       <Route path="/shipping" component={ShippingAddressScreen}></Route>
       <Route path="/payment" component={PaymentMethodScreen}></Route>
       <Route path="/placeorder" component={PlaceOrderScreen}></Route>
+      <Route path="/order/:id" component={OrderScreen}></Route>
       <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
       <Route path="/orderlist" component={OrderListScreen}></Route>
+      <Route
+            path="/search/name/:name?"
+            component={SearchScreen}
+            exact
+      ></Route>
+      <Route
+          path="/search/category/:category"
+          component={SearchScreen}
+          exact
+      ></Route>
+        <Route
+          path="/search/category/:category/name/:name"
+          component={SearchScreen}
+          exact
+      ></Route>
+      <Route
+        path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order/pageNumber/:pageNumber"
+        component={SearchScreen}
+        exact
+      ></Route>
+      <PrivateRoute
+            path="/profile"
+            component={ProfileScreen}
+      ></PrivateRoute>
+      {/* <PrivateRoute path="/map" component={MapScreen}></PrivateRoute> */}
+      <AdminRoute
+          path="/productlist"
+          component={ProductListScreen}
+          exact
+      ></AdminRoute>
+      <AdminRoute
+        path="/productlist/pageNumber/:pageNumber"
+        component={ProductListScreen}
+        exact
+      ></AdminRoute>
+      <AdminRoute
+        path="/orderlist"
+        component={OrderListScreen}
+        exact
+      ></AdminRoute>
+      <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
+      <AdminRoute
+        path="/user/:id/edit"
+        component={UserEditScreen}
+      ></AdminRoute>
+      <SellerRoute
+        path="/productlist/seller"
+        component={ProductListScreen}
+      ></SellerRoute>
+      <SellerRoute
+        path="/orderlist/seller"
+        component={OrderListScreen}
+      ></SellerRoute>
+
     </main>
     <Footer></Footer>
     </div>
