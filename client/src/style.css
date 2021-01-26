@@ -367,57 +367,6 @@ img.large {
   color: var(--clr-dark);
 } */
 
-/*---- PRODUCT DETAILS ----*/
-/* .details {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  padding: 1rem;
-}
-
-.details-image {
-  flex: 2 1 60rem;
-}
-
-.details-image img {
-  max-width: 60rem;
-  width: 100%;
-}
-
-.details-info {
-  flex: 1 1 30rem;
-}
-
-.details-action {
-  flex: 1 1 50rem;
-}
-
-.details-info ul, .details-action ul {
-  list-style-type: none;
-  padding: 0;
-}
-.details-info li, .details-action li {
- margin-bottom: 1rem;
-}
-
-.back-to-results {
-  padding: 1rem;
-}
-
-.details-action {
-  border: .1rem var(--clr-dark) solid;
-  border-radius: 0.5rem;
-  background-color: lightgray;
-  padding: .2rem;
-}
-
-.details-action ul li:last-child {
-  display: flex;
-  flex-direction: column;
-} */
-/*---- END OF PRODUCT DETAILS ----*/
-
 /* CART */
 /* .cart {
   display: flex;
@@ -549,51 +498,6 @@ footer {
   color: var(--clr-light);
 }
 
-/*------------ HERO ------------ */
-.hero {
-  min-height: calc(100vh - 60px); /*100% of the view height minus 60px for the height of the navbar*/
-  background: url("https://images.unsplash.com/photo-1549385692-a0c4045040b1?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80") center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  /* margin-top: -149px; */
-}
-
-.banner {
-  text-align: center;
-  background: var(--clr-light-accent);
-  display: inline-block;
-  padding: 2rem;
-  opacity: 0.8;
-}
-
-.banner-title {
-  font-size: 3.4rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
-  margin-bottom: 3rem;
-}
-
-.banner-btn {
-  padding: 1rem 3rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
-  font-size: 1rem;
-  background: var(--clr-accent);
-  color: var(--clr-light);
-  border: 1px solid var(--clr-accent);
-  transition: all 0.3s linear;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.banner-btn:hover {
-  color: black;
-  font-weight: bold;
-}
-/*------------ END OF HERO ------------ */
-
 /* GENERAL */
 h1 {
   font-size: 1.8rem;
@@ -652,9 +556,7 @@ textarea:hover,
 button:hover {
   border: 0.1rem #404040 solid;
 }
-/* button.primary {
-  background-color: #f0c040;
-} */
+
 button.block {
   width: 100%;
 }
@@ -729,6 +631,61 @@ a.brand {
   padding: 1rem;
 }
 
+/* HERO */
+.hero {
+  min-height: calc(100vh - 60px); /*100% of the view height minus 60px for the height of the navbar*/
+  background: url("https://images.unsplash.com/photo-1549385692-a0c4045040b1?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.banner {
+  text-align: center;
+  background: var(--clr-light-accent);
+  display: inline-block;
+  padding: 2rem;
+  opacity: 0.8;
+}
+
+.banner-title {
+  font-size: 3.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  margin-bottom: 3rem;
+}
+
+.banner-btn {
+  padding: 1rem 3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-size: 2rem;
+  background: var(--clr-accent);
+  color: var(--clr-light);
+  border: 1px solid var(--clr-accent);
+  transition: all 0.3s linear;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.banner-btn:hover {
+  color: black;
+  font-weight: bold;
+}
+/* END OF HERO */
+
+/* HOME */
+.section-title {
+  margin-top: 30rem;
+}
+
+#products-center {
+  margin-bottom: 25rem;
+}
+/* END OF HOME*/
+
+
 /* SHOPPING CART ICON SIZE */
 .fa-shopping-cart {
   color: teal;
@@ -778,6 +735,58 @@ img.medium {
 img.large {
   width: 100%;
 }
+
+
+/*---- PRODUCT DETAILS ----*/
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+.details-image {
+  flex: 2 1 60rem;
+}
+
+.details-image img {
+  max-width: 60rem;
+  width: 100%;
+}
+
+.details-info {
+  flex: 1 1 30rem;
+}
+
+.details-action {
+  flex: 1 1 50rem;
+}
+
+.details-info ul, .details-action ul {
+  list-style-type: none;
+  padding: 0;
+}
+.details-info li, .details-action li {
+ margin-bottom: 1rem;
+}
+
+.back-to-results {
+  padding: 1rem;
+}
+
+.details-action {
+  border: .1rem var(--clr-dark) solid;
+  border-radius: 0.5rem;
+  background-color: lightgray;
+  padding: .2rem;
+}
+
+.details-action ul li:last-child {
+  display: flex;
+  flex-direction: column;
+} 
+/* END OF PRODUCT DETAILS */
 
 /* FORMS */
 .form {

@@ -31,7 +31,7 @@ export default function HomeScreen() {
                 </header>
                 <div id="products-center" className="products-center">
                     <div className="section-title">
-                        <h2>Featured Products</h2>
+                        <h2 className="text-center">Featured Products</h2>
                     </div>
                     {loading? (
                         <LoadingBox></LoadingBox>
