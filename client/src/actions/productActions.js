@@ -96,7 +96,7 @@ export const createProduct = () => async (dispatch, getState) => {
 export const updateProduct = (product) => async (dispatch, getState) => {
   dispatch({ type: PRODUCT_UPDATE_REQUEST, payload: product });
   const {
-    userSignin: { userInfo },
+    userLogin: { userInfo },
   } = getState();
   try {
     const { data } = await Axios.put(`http://localhost:5000/products/${product._id}`, product, {
@@ -114,9 +114,14 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 
 export const saveProduct = (product) => async (dispatch, getState) => {
     dispatch({ type: PRODUCT_SAVE_REQUEST, payload: product });
+    const {
+      userLogin: { userInfo },
+    } = getState();
     try {
       if(!product._id) {
-      const { data } = await Axios.post("http://localhost:5000/products/", product);
+      const { data } = await Axios.post("http://localhost:5000/products/", product,{
+        headers: { Authorization: `Bearer ${userInfo.token}` }
+      });
       dispatch({ type: PRODUCT_SAVE_SUCCESS, payload: data });
       } else {
         const { data } = await Axios.put("http://localhost:5000/products/" + product._id, product);
@@ -124,7 +129,11 @@ export const saveProduct = (product) => async (dispatch, getState) => {
       }
 
     } catch (error) {
-      dispatch({ type: PRODUCT_SAVE_FAIL, payload: error.message });
+      const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+      dispatch({ type: PRODUCT_SAVE_FAIL, error: message });
     }
   };
 

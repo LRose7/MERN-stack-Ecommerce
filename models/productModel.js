@@ -11,20 +11,13 @@ const reviewSchema = new mongoose.Schema(
     }
 );
 
-// const imageSchema = new mongoose.Schema(
-//     {
-//         img: { data: Buffer, contentType: String }
-//     },
-//     {
-//         timestamps: true,
-//     }
-// );
 
 
 const  productSchema = new mongoose.Schema ({
     name: { type: String, required: true, unique: true },
+    seller: { type: mongoose.Schema.Types.ObjectID, ref: 'User' },
     image: { type: String, required: true },
-    price: { type: Number, default: 0 },
+    price: { type: Number, default: 0, required: true},
     category: { type: String,  required: true },
     countInStock: { type: Number, default: 0, required: true },
     description: { type: String,  required: true },

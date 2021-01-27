@@ -1,146 +1,252 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import {
-  createProduct,
-  deleteProduct,
-  listProducts,
-} from '../actions/productActions';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Axios from 'axios';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import {
-  PRODUCT_CREATE_RESET,
-  PRODUCT_DELETE_RESET,
-} from '../constants/productConstants';
+import { saveProduct, listProducts, deleteProduct } from '../actions/productActions';
 
-export default function ProductListScreen(props) {
-  const { pageNumber = 1 } = useParams();
+export default function ProductsScreen(props) {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [id, setId] = useState('');
+    const [name, setName] = useState('');
+    const [file, setFile] = useState('');
+    const [image, setImage] = useState('');
+    const [price, setPrice] = useState('');
+    const [category, setCategory] = useState('');
+    const [description, setDescription] = useState('');
+    const [rating, setRating] = useState('');
+    const [numReviews, setNumReviews] = useState('');
+    const [countInStock, setCountInStock] = useState('');
+    const [uploading, setUploading] = useState(false);
+    const productList = useSelector((state) => state.productList);
+    const { loading, products, error } = productList;
 
-  const sellerMode = props.match.path.indexOf('/seller') >= 0;
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products, page, pages } = productList;
+    const productSave = useSelector((state) => state.productSave);
+    const {
+        loading: loadingSave,
+        success: successSave,
+        error: errorSave
+    } = productSave;
 
-  const productCreate = useSelector((state) => state.productCreate);
-  const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-    product: createdProduct,
-  } = productCreate;
+    const productDelete = useSelector((state) => state.productDelete);
+    const {
+        loading: loadingDelete,
+        success: successDelete,
+        error: errorDelete,
+      } = productDelete;
 
-  const productDelete = useSelector((state) => state.productDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = productDelete;
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (successCreate) {
-      dispatch({ type: PRODUCT_CREATE_RESET });
-      props.history.push(`/product/${createdProduct._id}/edit`);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (successSave) {
+            setModalVisible(false);
+        }
+        dispatch(listProducts());
+        return () => {
+            //
+        };
+    }, [dispatch, successSave, successDelete]);
+
+    const openModal = (product) => {
+        setModalVisible(true);
+        setId(product._id);
+        setName(product.name);
+        setPrice(product.price);
+        setImage(product.image);
+        setCategory(product.category);
+        setDescription(product.description);
+        setRating(product.rating);
+        setNumReviews(product.numReviews);
+        setCountInStock(product.countInStock);
     }
-    if (successDelete) {
-      dispatch({ type: PRODUCT_DELETE_RESET });
+
+    const submit = async (e) => {
+        try {
+            e.preventDefault();
+            await dispatch(saveProduct({_id:id, name, image, price, category, description, rating, numReviews, countInStock}));
+            props.history.push('/products');
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    const deleteHandler = (product) => {
+        if (window.confirm('Are you sure to delete?')) {
+            dispatch(deleteProduct(product._id));
+         }
+      };
+
+    const uploadFileChange = (e) => {
+        setFile(e.target.files[0]);
     }
-    dispatch(
-      listProducts({ seller: sellerMode ? userInfo._id : '', pageNumber })
-    );
-  }, [
-    createdProduct,
-    dispatch,
-    props.history,
-    sellerMode,
-    successCreate,
-    successDelete,
-    userInfo._id,
-    pageNumber,
-  ]);
 
-  const deleteHandler = (product) => {
-    if (window.confirm('Are you sure to delete?')) {
-      dispatch(deleteProduct(product._id));
-    }
-  };
-  const createHandler = () => {
-    dispatch(createProduct());
-  };
-  return (
-    <div>
-      <div className="row">
-        <h1>Products</h1>
-        <button type="button" className="primary" onClick={createHandler}>
-          Create Product
-        </button>
-      </div>
+    const uploadFileHandler = async (e) => {
+        const formData = new FormData();
+        formData.append('image', file);
+        setUploading(true);
+        try{
+        const { data } = await Axios.post('http://localhost:5000/uploads', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+            setImage(data);
+            setUploading(false);
+          } catch (error) {
+            console.log(error);
+            setUploading(false);
+          }
+      };
 
-      {loadingDelete && <LoadingBox></LoadingBox>}
-      {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
+    return(
+        <div className="content content-margined">
+        <div className="product-header">
+            <h1>Products</h1>
+            <button onClick={ () => openModal({}) } className="button primary">Create Product</button>
+        </div>
+        {
+            modalVisible &&
+            <div className="form">
+            <form onSubmit={ submit } encType="multipart/form-data">
+                <ul className="form-container">
+                    <li>
+                        <h2>Create Product</h2>
+                    </li>
+                    <li>
+                        { loadingSave && <LoadingBox></LoadingBox> }
+                        { errorSave && <MessageBox>{ errorSave }</MessageBox> }
 
-      {loadingCreate && <LoadingBox></LoadingBox>}
-      {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
-      {loading ? (
-        <LoadingBox></LoadingBox>
-      ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
-      ) : (
-        <>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="small"
-                      onClick={() =>
-                        props.history.push(`/product/${product._id}/edit`)
-                      }
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      className="small"
-                      onClick={() => deleteHandler(product)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="row center pagination">
-            {[...Array(pages).keys()].map((x) => (
-              <Link
-                className={x + 1 === page ? 'active' : ''}
-                key={x + 1}
-                to={`/productlist/pageNumber/${x + 1}`}
-              >
-                {x + 1}
-              </Link>
-            ))}
-          </div>
-        </>
-      )}
+                        { loadingDelete && <LoadingBox></LoadingBox> }
+                        { errorDelete && <MessageBox>{ errorDelete }</MessageBox> }
+                    </li>
+                    <li>
+                        <label htmlFor="name">Name</label>
+                        <input
+                        type="text"
+                        name="name"
+                        value={name}
+                        id="name"
+                        onChange={(e) => setName(e.target.value)}>
+                        </input>
+                    </li>
+                    <li>
+                        {/* <label htmlFor="image">Upload Image</label>
+                        <input
+                        type="text"
+                        name="image"
+                        value={image}
+                        id="image"
+                        onChange={(e) => setImage(e.target.value)}
+                        ></input> */}
+                        <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        onChange={(e) => uploadFileChange(e)}
+                        ></input>
+                        <br />
+                        <button type="button" onClick={() => uploadFileHandler()}>Upload</button>
+                        {uploading && <LoadingBox></LoadingBox>}
+                    </li>
+                    <li>
+                        <label htmlFor="price">Price</label>
+                        <input
+                        type="number"
+                        name="price"
+                        value={price}
+                        id="price"
+                        onChange={(e) => setPrice(e.target.value)}>
+                        </input>
+                    </li>
+                    <li>
+                        <label htmlFor="category">Category</label>
+                        <input
+                        type="text"
+                        name="category"
+                        value={category}
+                        id="category"
+                        onChange={(e) => setCategory(e.target.value)}>
+                        </input>
+                    </li>
+                    <li>
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                        name="description"
+                        value={description}
+                        id="description"
+                        onChange={(e) => setDescription(e.target.value)}>
+                        </textarea>
+                    </li>
+                    <li>
+                        <label htmlFor="rating">Rating</label>
+                        <input
+                        name="rating"
+                        value={rating}
+                        id="rating"
+                        onChange={(e) => setRating(e.target.value)}>
+                        </input>
+                    </li>
+                    <li>
+                        <label htmlFor="numReviews">Num Reviews</label>
+                        <input
+                        name="numReviews"
+                        value={numReviews}
+                        id="numReviews"
+                        onChange={(e) => setNumReviews(e.target.value)}>
+                        </input>
+                    </li>
+                    <li>
+                        <label htmlFor="countInStock">Count In Stock</label>
+                        <input
+                        type="number"
+                        name="countInStock"
+                        value={countInStock}
+                        id="countInStock"
+                        onChange={(e) => setCountInStock(e.target.value)}>
+                        </input>
+                    </li>
+                    <li>
+                        <button type="submit" className="button primary">{id ? 'Update' : 'Create'}</button>
+                        <br />
+                        <button onClick={ () => setModalVisible(false)} type="button" className="button secondary">Back</button>
+                    </li>
+                </ul>
+
+            </form>
+            </div>
+        }
+         {loading? <div>Loading...</div>:
+        error? <div>{error}</div>:
+        (
+        <div className="product-list">
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {products.map(product => (
+                    <tr key={product._id}>
+                        <td>{product._id}</td>
+                        <td>{product.name}</td>
+                        <td>{product.price}</td>
+                        <td>{product.category}</td>
+                        <td>
+                            <button onClick={ () => openModal(product)}>Edit</button>
+                            <button onClick={ () => deleteHandler(product)}>Delete</button>
+                        </td>
+                    </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+)}
     </div>
-  );
+    )
 }

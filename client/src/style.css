@@ -187,143 +187,6 @@ ol {
 
 
 
-/* ---- PRODUCTS ----*/
-/* .product-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  font-family: var(--ff-primary);
-}
-
- .row.center {
-  justify-content: center;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.row.top {
-  align-items: flex-start;
-}
-
-.row.start {
-  justify-content: flex-start;
-}
-
-.col-1 {
-  flex: 1 1 25rem;
-}
-.col-2 {
-  flex: 2 1 50rem;
-}
-.col-3 {
-  flex: 32 1 75rem;
-}
-.min-30 {
-  min-width: 30rem;
-}
-.p-1 {
-  padding: 1rem;
-}
-
-.content-margined {
-  margin: 1rem;
-}
-
-.table {
-  width: 100%;
-}
-
-th {
-  text-align: left;
-}
-
-tbody>tr:nth-child(odd) {
-  background-color: lightgray;
-}
-
-.products {
-  padding: 4rem 0;
-}
-
-.section-title h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 5rem;
-  letter-spacing: 0.1rem;
-  text-transform: capitalize;
-  font-family: var(--ff-primary);
-}
-
-.products-center {
-  width: 90vw;
-  margin: 0 auto;
-}
-
-.products-list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.image-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.product-image {
-  display: block;
-  width: 100%;
-  max-width: 25rem;
-  height: 25rem;
-  transition: all 0.3s linear;
-}
-
-.image-container:hover .product-image {
-  opacity: 0.5;
-}
-
-.products li {
-  margin: 1rem;
-  padding: 0;
-  height: 35rem;
-  border-bottom: .1rem var(--clr-light-accent) solid;
-}
-
-.product-name {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-top: 1rem;
-}
-
-.product-name a {
-  color: var(--clr-accent);
-}
-
-.product-type {
-  font-size: 1.0rem;
-  font-weight: bold;
-  margin-top:0.7rem;
-}
-
-.product-price {
-  font-size: 1.7rem;
-  font-weight: bold;
-  color: var(--clr-light-accent);
-  margin-top: 0.7rem;
-}
-
-.product-rating {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-} */
-
-/* END OF PRODUCTS */
 
 /* Image */
 /* img {
@@ -736,6 +599,145 @@ img.large {
   width: 100%;
 }
 
+/* ---- PRODUCTS ----*/
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: var(--ff-primary);
+}
+
+ .row.center {
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row.top {
+  align-items: flex-start;
+}
+
+.row.start {
+  justify-content: flex-start;
+}
+
+.col-1 {
+  flex: 1 1 25rem;
+}
+.col-2 {
+  flex: 2 1 50rem;
+}
+.col-3 {
+  flex: 32 1 75rem;
+}
+.min-30 {
+  min-width: 30rem;
+}
+.p-1 {
+  padding: 1rem;
+}
+
+.content-margined {
+  margin: 1rem;
+}
+
+.table {
+  width: 100%;
+}
+
+th {
+  text-align: left;
+}
+
+tbody>tr:nth-child(odd) {
+  background-color: lightgray;
+}
+
+.products {
+  padding: 4rem 0;
+}
+
+.section-title h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 5rem;
+  letter-spacing: 0.1rem;
+  text-transform: capitalize;
+  font-family: var(--ff-primary);
+}
+
+.products-center {
+  width: 90vw;
+  margin: 0 auto;
+}
+
+.products-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-image {
+  display: block;
+  width: 100%;
+  max-width: 25rem;
+  height: 25rem;
+  transition: all 0.3s linear;
+}
+
+.image-container:hover .product-image {
+  opacity: 0.5;
+}
+
+.products li {
+  margin: 1rem;
+  padding: 0;
+  height: 35rem;
+  border-bottom: .1rem var(--clr-light-accent) solid;
+}
+
+.product-name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.product-name a {
+  color: var(--clr-accent);
+}
+
+.product-type {
+  font-size: 1.0rem;
+  font-weight: bold;
+  margin-top:0.7rem;
+}
+
+.product-price {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: var(--clr-light-accent);
+  margin-top: 0.7rem;
+}
+
+.product-rating {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+/* END OF PRODUCTS */
+
+
 
 /*---- PRODUCT DETAILS ----*/
 .details {
@@ -785,7 +787,7 @@ img.large {
 .details-action ul li:last-child {
   display: flex;
   flex-direction: column;
-} 
+}
 /* END OF PRODUCT DETAILS */
 
 /* FORMS */

@@ -15,8 +15,6 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
-import ProductsScreen from './screens/ProductsScreen';
-import EditProductsScreen from './screens/EditProductsScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import OrderScreen from './screens/OrderScreen';
 import UserListScreen from './screens/UserListScreen';
@@ -136,7 +134,7 @@ export default function App() {
                     <Link to="/dashboard">Dashboard</Link>
                   </li>
                   <li>
-                    <Link to="/productlist">Products</Link>
+                    <Link to="/products">Products</Link>
                   </li>
                   <li>
                     <Link to="/orderlist">Orders</Link>
@@ -184,12 +182,7 @@ export default function App() {
       <Route path="/register" component={RegisterScreen}></Route>
       <Route path="/login" component={LoginScreen}></Route>
       <Route path="/product/:id" component={ProductScreen}></Route>
-      <Route path="/products" component={ProductsScreen}></Route>
-      <Route 
-      path="/product/:id/edit" 
-      component={EditProductsScreen}
-      exact
-      ></Route>
+      <AdminRoute path="/products" component={ProductListScreen}></AdminRoute>
       <Route path="/cart/:id?" component={CartScreen}></Route>
       <Route path="/seller/:id" component={SellerScreen}></Route>
       <Route path="/shipping" component={ShippingAddressScreen}></Route>
@@ -223,16 +216,7 @@ export default function App() {
             component={ProfileScreen}
       ></PrivateRoute>
       {/* <PrivateRoute path="/map" component={MapScreen}></PrivateRoute> */}
-      <AdminRoute
-          path="/productlist"
-          component={ProductListScreen}
-          exact
-      ></AdminRoute>
-      <AdminRoute
-        path="/productlist/pageNumber/:pageNumber"
-        component={ProductListScreen}
-        exact
-      ></AdminRoute>
+
       <AdminRoute
         path="/orderlist"
         component={OrderListScreen}
