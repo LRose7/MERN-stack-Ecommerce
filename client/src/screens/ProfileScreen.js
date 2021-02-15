@@ -10,9 +10,6 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [sellerName, setSellerName] = useState('');
-  const [sellerLogo, setSellerLogo] = useState('');
-  const [sellerDescription, setSellerDescription] = useState('');
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,11 +29,6 @@ export default function ProfileScreen() {
     } else {
       setName(user.name);
       setEmail(user.email);
-      if (user.seller) {
-        setSellerName(user.seller.name);
-        setSellerLogo(user.seller.logo);
-        setSellerDescription(user.seller.description);
-      }
     }
   }, [dispatch, userInfo._id, user]);
   const submitHandler = (e) => {
@@ -51,9 +43,6 @@ export default function ProfileScreen() {
           name,
           email,
           password,
-          sellerName,
-          sellerLogo,
-          sellerDescription,
         })
       );
     }
@@ -61,14 +50,16 @@ export default function ProfileScreen() {
   return (
     <div>
       <form className="form" onSubmit={submitHandler}>
-        <div>
-          <h1>User Profile</h1>
-        </div>
-        {loading ? (
+        <ul className="form-container">
+          <li>
+            <h1 className="text-center">User Profile</h1>
+          </li>
+
+          {loading ? (
           <LoadingBox></LoadingBox>
-        ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
-        ) : (
+          ) : error ? (
+            <MessageBox variant="danger">{error}</MessageBox>
+          ) : (
           <>
             {loadingUpdate && <LoadingBox></LoadingBox>}
             {errorUpdate && (
@@ -79,7 +70,7 @@ export default function ProfileScreen() {
                 Profile Updated Successfully
               </MessageBox>
             )}
-            <div>
+            <li>
               <label htmlFor="name">Name</label>
               <input
                 id="name"
@@ -88,8 +79,8 @@ export default function ProfileScreen() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></input>
-            </div>
-            <div>
+            </li>
+            <li>
               <label htmlFor="email">Email</label>
               <input
                 id="email"
@@ -98,8 +89,8 @@ export default function ProfileScreen() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               ></input>
-            </div>
-            <div>
+            </li>
+            <li>
               <label htmlFor="password">Password</label>
               <input
                 id="password"
@@ -107,8 +98,8 @@ export default function ProfileScreen() {
                 placeholder="Enter password"
                 onChange={(e) => setPassword(e.target.value)}
               ></input>
-            </div>
-            <div>
+            </li>
+            <li>
               <label htmlFor="confirmPassword">confirm Password</label>
               <input
                 id="confirmPassword"
@@ -116,50 +107,19 @@ export default function ProfileScreen() {
                 placeholder="Enter confirm password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
-            </div>
-            {user.isSeller && (
-              <>
-                <h2>Seller</h2>
-                <div>
-                  <label htmlFor="sellerName">Seller Name</label>
-                  <input
-                    id="sellerName"
-                    type="text"
-                    placeholder="Enter Seller Name"
-                    value={sellerName}
-                    onChange={(e) => setSellerName(e.target.value)}
-                  ></input>
-                </div>
-                <div>
-                  <label htmlFor="sellerLogo">Seller Logo</label>
-                  <input
-                    id="sellerLogo"
-                    type="text"
-                    placeholder="Enter Seller Logo"
-                    value={sellerLogo}
-                    onChange={(e) => setSellerLogo(e.target.value)}
-                  ></input>
-                </div>
-                <div>
-                  <label htmlFor="sellerDescription">Seller Description</label>
-                  <input
-                    id="sellerDescription"
-                    type="text"
-                    placeholder="Enter Seller Description"
-                    value={sellerDescription}
-                    onChange={(e) => setSellerDescription(e.target.value)}
-                  ></input>
-                </div>
-              </>
-            )}
-            <div>
+            </li>
+            <li>
               <label />
               <button className="primary" type="submit">
                 Update
               </button>
-            </div>
+            </li>
           </>
         )}
+
+        </ul>
+      
+    
       </form>
     </div>
   );

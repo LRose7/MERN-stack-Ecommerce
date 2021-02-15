@@ -76,7 +76,7 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
     userLogin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get(`http://localhost:5000/users/${userId}`, {
+    const { data } = await Axios.get(`http://localhost:5000/user/${userId}`, {
       headers: { Authorization: `Bearer ${userInfo?.token}` },
     });
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
@@ -95,7 +95,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     userLogin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.put(`http://localhost:5000/users/profile`, user, {
+    const { data } = await Axios.put(`http://localhost:5000/user/profile`, user, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
@@ -116,7 +116,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     userLogin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.put(`http://localhost:5000/users/${user._id}`, user, {
+    const { data } = await Axios.put(`http://localhost:5000/user/${user._id}`, user, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
@@ -135,7 +135,7 @@ export const listUsers = () => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-    const { data } = await Axios.get('http://localhost:5000/users', {
+    const { data } = await Axios.get('http://localhost:5000/user', {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
@@ -156,7 +156,7 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
     userLogin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.delete(`http://localhost:5000/users/${userId}`, {
+    const { data } = await Axios.delete(`http://localhost:5000/user/${userId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: USER_DELETE_SUCCESS, payload: data });
