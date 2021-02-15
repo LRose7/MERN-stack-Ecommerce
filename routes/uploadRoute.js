@@ -25,7 +25,7 @@ const filefilter = (req, file, cb) => {
 // upload parameters for multer
 const upload = multer({ storage: storage, filefilter: filefilter });
 
-router.post('/', isAuth, upload.single('image'), (req, res) => {
+router.post('/', upload.single('image'), (req, res) => {
     try {
         res.send(`/${req.file.path}`);
 

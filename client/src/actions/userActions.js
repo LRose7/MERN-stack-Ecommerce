@@ -152,13 +152,8 @@ export const listUsers = () => async (dispatch, getState) => {
 
 export const deleteUser = (userId) => async (dispatch, getState) => {
   dispatch({ type: USER_DELETE_REQUEST, payload: userId });
-  const {
-    userLogin: { userInfo },
-  } = getState();
   try {
-    const { data } = await Axios.delete(`http://localhost:5000/user/${userId}`, {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
-    });
+    const { data } = await Axios.delete(`http://localhost:5000/user/${userId}`);
     dispatch({ type: USER_DELETE_SUCCESS, payload: data });
   } catch (error) {
     const message =

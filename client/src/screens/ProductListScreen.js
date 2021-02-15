@@ -72,7 +72,7 @@ export default function ProductsScreen(props) {
     };
 
     const deleteHandler = (product) => {
-        if (window.confirm('Are you sure to delete?')) {
+        if (window.confirm('Are you sure you want to delete?')) {
             dispatch(deleteProduct(product._id));
          }
       };
@@ -227,6 +227,7 @@ export default function ProductsScreen(props) {
                         <th>Name</th>
                         <th>Price</th>
                         <th>Category</th>
+                        <th>Count In Stock</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -237,6 +238,7 @@ export default function ProductsScreen(props) {
                         <td>{product.name}</td>
                         <td>{product.price}</td>
                         <td>{product.category}</td>
+                        <td>{product.countInStock}</td>
                         <td>
                             <button onClick={ () => openModal(product)}>Edit</button>
                             <button onClick={ () => deleteHandler(product)}>Delete</button>

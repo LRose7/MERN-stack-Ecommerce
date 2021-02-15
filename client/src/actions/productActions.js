@@ -95,13 +95,11 @@ export const createProduct = () => async (dispatch, getState) => {
 
 export const updateProduct = (product) => async (dispatch, getState) => {
   dispatch({ type: PRODUCT_UPDATE_REQUEST, payload: product });
-  const {
-    userLogin: { userInfo },
-  } = getState();
+  // const {
+  //   userLogin: { userInfo },
+  // } = getState();
   try {
-    const { data } = await Axios.put(`http://localhost:5000/products/${product._id}`, product, {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
-    });
+    const { data } = await Axios.put(`http://localhost:5000/products/${product._id}`, product);
     dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
   } catch (error) {
     const message =

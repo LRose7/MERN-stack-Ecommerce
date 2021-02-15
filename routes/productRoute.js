@@ -61,25 +61,31 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.put('/:id', isAuth, async (req, res) => {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-    if (product) {
-        product.name = req.body.name;
-        product.image = req.file.image;
-        product.price = req.body.price;
-        product.category = req.body.category;
-        product.description = req.body.description;
-        product.rating = req.body.rating;
-        product.numReviews = req.body.numReviews;
-        product.countInStock = req.body.countInStock;
-        const updatedProduct = await product.save();
-        if (updatedProduct) {
-            return res.status(200).json({ message: "Product Updated", data: updatedProduct });
+router.put('/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Product.findById(productId);
+        if (product) {
+            product.name = req.body.name;
+            product.image = req.body.image;
+            product.price = req.body.price;
+            product.category = req.body.category;
+            product.description = req.body.description;
+            product.rating = req.body.rating;
+            product.numReviews = req.body.numReviews;
+            product.countInStock = req.body.countInStock;
+            const updatedProduct = await product.save();
+            if (updatedProduct) {
+                return res.status(200).json({ message: "Product Updated", data: updatedProduct });
+            }
+        } else {
+            return res.status(500).json({ message: "Error Updating Product" });
         }
-    } else {
-        return res.status(500).json({ message: "Error Updating Product" });
+        
+    } catch (error) {
+        res.status(500).json({error: err.message});        
     }
+   
 });
 
 router.delete('/:id', async (req, res) => {

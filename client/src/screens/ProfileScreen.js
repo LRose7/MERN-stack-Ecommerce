@@ -5,11 +5,15 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
-export default function ProfileScreen() {
+export default function ProfileScreen(props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  const redirect = props.location.search
+  ? props.location.search.split('=')[1]
+  : '/profile';
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -21,7 +25,9 @@ export default function ProfileScreen() {
     error: errorUpdate,
     loading: loadingUpdate,
   } = userUpdateProfile;
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (!user) {
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
@@ -31,13 +37,15 @@ export default function ProfileScreen() {
       setEmail(user.email);
     }
   }, [dispatch, userInfo._id, user]);
-  const submitHandler = (e) => {
-    e.preventDefault();
+
+  const submitHandler = async(e) => {
+    try {
+      e.preventDefault();
     // dispatch update profile
     if (password !== confirmPassword) {
       alert('Password and Confirm Password Do Not Match');
     } else {
-      dispatch(
+      await dispatch(
         updateUserProfile({
           userId: user._id,
           name,
@@ -45,8 +53,14 @@ export default function ProfileScreen() {
           password,
         })
       );
+      props.history.push(redirect);
+    }
+      
+    } catch (error) {
+      console.log(error.message);      
     }
   };
+
   return (
     <div>
       <form className="form" onSubmit={submitHandler}>
@@ -96,6 +110,7 @@ export default function ProfileScreen() {
                 id="password"
                 type="password"
                 placeholder="Enter password"
+                required
                 onChange={(e) => setPassword(e.target.value)}
               ></input>
             </li>
@@ -104,7 +119,8 @@ export default function ProfileScreen() {
               <input
                 id="confirmPassword"
                 type="password"
-                placeholder="Enter confirm password"
+                placeholder="Confirm password"
+                required
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
             </li>
