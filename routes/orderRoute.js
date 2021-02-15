@@ -1,13 +1,11 @@
 const { Router } = require('express');
 const router = Router();
 const Order = require('../models/orderModel');
-const { isAdmin, isAuth, isSellerOrAdmin } = require('../utils');
+const { isAdmin, isAuth } = require('../utils');
 
-router.get('/', isAuth, isSellerOrAdmin, async (req, res) =>{
-    const seller = req.query.seller || '';
-    const sellerFilter = seller ? { seller } : {};
-
-    const orders = await Order.find({ ...sellerFilter }).populate(
+router.get('/', isAuth, async (req, res) =>{
+  
+    const orders = await Order.find().populate(
         'user',
         'name'
     );
@@ -24,7 +22,6 @@ router.post('/', isAuth, async (req, res) => {
         res.status(400).send({ message: 'Cart is empty' });
       } else {
         const order = new Order({
-          seller: req.body.orderItems[0].seller,
           orderItems: req.body.orderItems,
           shippingAddress: req.body.shippingAddress,
           paymentMethod: req.body.paymentMethod,

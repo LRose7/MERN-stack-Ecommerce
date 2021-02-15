@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Product = require('../models/productModel');
-const { isAuth, isSellerOrAdmin } = require('../utils');
+const { isAuth } = require('../utils');
 
 router.get('/', async (req, res) => {
     const category = req.query.category ? { category: req.query.category } : {};
@@ -41,7 +41,6 @@ router.post("/", async (req, res) => {
 
         const product = new Product({
             name: req.body.name,
-            seller: req.user._id,
             image: req.file.image,
             price: req.body.price,
             category: req.body.category,
@@ -62,7 +61,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.put('/:id', isAuth, isSellerOrAdmin, async (req, res) => {
+router.put('/:id', isAuth, async (req, res) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);
     if (product) {

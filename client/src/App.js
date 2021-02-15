@@ -19,8 +19,6 @@ import OrderListScreen from './screens/OrderListScreen';
 import OrderScreen from './screens/OrderScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
-import SellerRoute from './components/SellerRoute';
-import SellerScreen from './screens/SellerScreen';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
 import Footer from './layout/Footer';
@@ -109,21 +107,6 @@ export default function App() {
             ) : (
               <Link to="/login">Log In</Link>
             )}
-            {userInfo && userInfo.isSeller && (
-              <div className="dropdown">
-                <Link to="#admin">
-                  Seller <i className="fa fa-caret-down"></i>
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/productlist/seller">Products</Link>
-                  </li>
-                  <li>
-                    <Link to="/orderlist/seller">Orders</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
             {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
                 <Link to="#admin">
@@ -184,7 +167,6 @@ export default function App() {
       <Route path="/product/:id" component={ProductScreen}></Route>
       <AdminRoute path="/products" component={ProductListScreen}></AdminRoute>
       <Route path="/cart/:id?" component={CartScreen}></Route>
-      <Route path="/seller/:id" component={SellerScreen}></Route>
       <Route path="/shipping" component={ShippingAddressScreen}></Route>
       <Route path="/payment" component={PaymentMethodScreen}></Route>
       <Route path="/placeorder" component={PlaceOrderScreen}></Route>
@@ -227,14 +209,14 @@ export default function App() {
         path="/user/:id/edit"
         component={UserEditScreen}
       ></AdminRoute>
-      <SellerRoute
+      {/* <SellerRoute
         path="/productlist/seller"
         component={ProductListScreen}
       ></SellerRoute>
       <SellerRoute
         path="/orderlist/seller"
         component={OrderListScreen}
-      ></SellerRoute>
+      ></SellerRoute> */}
 
     </main>
     <Footer></Footer>
